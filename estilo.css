@@ -1,0 +1,122 @@
+
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+       color:#1a1a1a; background:#fff; line-height:1.55; }
+header { display:flex; align-items:center; gap:16px; padding:18px 20px 10px; }
+.logo { width:56px; height:56px; object-fit:contain; }
+h1 { margin:0; font-size:1.5rem; letter-spacing:-0.5px; }
+.sub { margin:2px 0 0; font-weight:700; color:#444; font-size:.95rem; }
+.menu { display:flex; gap:2px; flex-wrap:wrap; padding:0 20px; border-bottom:2px solid #c00000; }
+.menu a { padding:8px 14px; text-decoration:none; color:#444; font-weight:600;
+          font-size:.9rem; border-radius:6px 6px 0 0; }
+.menu a:hover { background:#f3f3f3; }
+.menu a.aqui { background:#c00000; color:#fff; }
+main { padding:20px; max-width:1100px; }
+h2 { font-size:1.15rem; margin:26px 0 10px; }
+h3 { font-size:1rem; margin:18px 0 8px; color:#333; }
+.nota { color:#777; font-size:.82rem; margin:6px 0 14px; }
+.controles { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end;
+             margin:6px 0 16px; }
+.controles label { display:flex; flex-direction:column; font-size:.75rem;
+                   color:#666; font-weight:600; gap:3px; }
+.controles select { font-size:.9rem; padding:6px 8px; border:1px solid #ccc;
+                    border-radius:6px; background:#fff; min-width:150px; }
+.caixa-seguir { margin-top:-6px; }
+table { border-collapse:collapse; }
+table.texto { border-collapse:collapse; margin:10px 0; font-size:.88rem; }
+table.texto th { background:#c00000; color:#fff; padding:6px 10px; text-align:left; }
+table.texto td { border:1px solid #ddd; padding:5px 10px; }
+blockquote { border-left:4px solid #c00000; margin:12px 0; padding:2px 14px;
+             background:#faf7f7; color:#444; }
+pre { background:#f6f6f6; padding:12px; overflow-x:auto; border-radius:6px;
+      font-size:.82rem; }
+code { background:#f2f2f2; padding:1px 5px; border-radius:4px; font-size:.86em; }
+pre code { background:none; padding:0; }
+.aviso { background:#eaf4fb; border-left:4px solid #4a8fc4; padding:10px 14px;
+         margin:12px 0; border-radius:0 6px 6px 0; }
+details.ausentes { margin:10px 0 4px; background:#fafafa; border:1px solid #eee;
+                   border-radius:8px; padding:8px 12px; }
+details.ausentes summary { cursor:pointer; font-weight:600; font-size:.88rem; color:#555; }
+footer { margin-top:40px; padding:16px 20px; border-top:1px solid #eee;
+         color:#999; font-size:.78rem; }
+.escolha { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:22px; }
+.porta { flex:1 1 260px; display:flex; flex-direction:column; gap:6px;
+         padding:22px; border:2px solid #eee; border-radius:14px;
+         text-decoration:none; color:inherit; transition:.15s; }
+.porta:hover { border-color:#c00000; transform:translateY(-2px); }
+.porta .icone { font-size:2rem; }
+.porta b { font-size:1.2rem; }
+.porta span:last-child { color:#666; font-size:.88rem; }
+.cartao.destaque { border:2px solid #c00000; border-radius:14px; padding:18px 22px;
+                   max-width:460px; }
+.etiqueta { margin:0 0 8px; font-size:.75rem; letter-spacing:.6px;
+            text-transform:uppercase; color:#c00000; font-weight:700; }
+.podio { list-style:none; margin:0 0 14px; padding:0; }
+.podio li { display:flex; align-items:center; gap:10px; padding:5px 0;
+            border-bottom:1px solid #f0f0f0; }
+.podio .pos { color:#999; font-size:.85rem; width:26px; }
+.podio .med { margin-left:auto; font-variant-numeric:tabular-nums; color:#555; }
+.botao { display:inline-block; background:#c00000; color:#fff; padding:9px 18px;
+         border-radius:8px; text-decoration:none; font-weight:700; font-size:.9rem; }
+.resumo { color:#888; font-size:.85rem; }
+.campeao { background:#eef7ee; border-left:4px solid #4a9a4a; padding:8px 14px;
+           margin:10px 0 14px; border-radius:0 6px 6px 0; }
+/* ---- ABAS ---- */
+.abas { display:flex; gap:2px; flex-wrap:wrap; margin:4px 0 16px;
+        border-bottom:2px solid #c00000; }
+.aba-botao { border:none; background:none; padding:8px 14px; cursor:pointer;
+             font:inherit; font-size:.88rem; font-weight:600; color:#444;
+             border-radius:6px 6px 0 0; }
+.aba-botao:hover { background:#f3f3f3; }
+.aba-botao.aqui { background:#c00000; color:#fff; }
+
+/* ---- COLUNA CONGELADA ----
+   O nome do jogador fica parado quando se arrasta a tabela para o lado.
+   Funciona porque o `sticky` horizontal e relativo ao proprio contêiner
+   que rola na horizontal — o caso que o CSS suporta bem. (O cabecalho no
+   topo NAO fica: um contêiner que rola na horizontal rola tambem na
+   vertical, e isso mata o sticky vertical. Como as tabelas tem 7 a 13
+   linhas, a rolagem vertical e curta e o prejuizo e pequeno.) */
+.tabela-rolante table tr > *:first-child {
+  position:sticky; left:0; z-index:3;
+  box-shadow:1px 0 0 #8a8a8a;
+}
+.tabela-rolante table tr > *:nth-child(2) {
+  position:sticky; z-index:3;
+  box-shadow:1px 0 0 #8a8a8a;
+}
+
+/* ---- AS TABELAS DA NOITE, TODAS COM A MESMA GEOMETRIA ----
+   Sem isto cada tabela se ajusta ao proprio conteudo: o rotulo comprido de
+   um leilao ("RAFAEL · DOWN · BENZINA pagou 1") alarga a primeira coluna do
+   jogo 1 e nao a do jogo 2, e os jogos da noite ficam desencontrados um sob
+   o outro. `table-layout:fixed` faz valer a largura declarada em cada
+   coluna, entao os quatro jogos saem identicos.
+
+   O `!important` e para vencer o `white-space:nowrap` que o tabela_html.py
+   escreve inline em toda celula: com layout fixo, texto que nao quebra
+   vaza para fora da coluna em vez de alarga-la. So a primeira coluna
+   quebra — os numeros continuam em uma linha so. */
+.partida table { table-layout:fixed; width:var(--colunas); }
+.partida table tr > *:first-child {
+  width:var(--rotulo) !important;
+  white-space:normal !important; overflow-wrap:anywhere;
+}
+
+/* ---- PARTIDAS ---- */
+.noites { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+.noite { display:flex; flex-direction:column; gap:2px; padding:10px 16px;
+         border:1px solid #e4e4e4; border-radius:10px; text-decoration:none;
+         color:inherit; min-width:118px; }
+.noite:hover { border-color:#c00000; }
+.noite span { color:#888; font-size:.75rem; }
+.resenha { background:#fffdf3; border-left:4px solid #e0c060; padding:10px 16px;
+           margin:16px 0; border-radius:0 8px 8px 0; }
+.titulo-inicio small { font-weight:400; color:#888; font-size:.85rem; }
+
+@media (max-width:640px) {
+  header { padding:14px 14px 8px; } .logo { width:44px; height:44px; }
+  h1 { font-size:1.15rem; } main { padding:14px; }
+  .menu { padding:0 8px; } .menu a { padding:7px 10px; font-size:.82rem; }
+  .controles select { min-width:120px; }
+}
