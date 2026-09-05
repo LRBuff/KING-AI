@@ -22,6 +22,12 @@ h3 { font-size:1rem; margin:18px 0 8px; color:#333; }
 .controles select { font-size:.9rem; padding:6px 8px; border:1px solid #ccc;
                     border-radius:6px; background:#fff; min-width:150px; }
 .caixa-seguir { margin-top:-6px; }
+/* O link do relatorio do mes fica ao lado do seletor, e nao vira um oitavo
+   item no menu: ele e do mes escolhido, entao pertence a este controle. */
+.aba-relatorio { align-self:end; padding:7px 14px; border-radius:6px;
+  background:#c00000; color:#fff; text-decoration:none; font-weight:700;
+  font-size:.85rem; white-space:nowrap; }
+.aba-relatorio:hover { background:#900; }
 table { border-collapse:collapse; }
 table.texto { border-collapse:collapse; margin:10px 0; font-size:.88rem; }
 table.texto th { background:#c00000; color:#fff; padding:6px 10px; text-align:left; }
@@ -110,6 +116,17 @@ footer { margin-top:40px; padding:16px 20px; border-top:1px solid #eee;
          color:inherit; min-width:118px; }
 .noite:hover { border-color:#c00000; }
 .noite span { color:#888; font-size:.75rem; }
+/* A galeria da noite. Sem cortar nada: as fotos vem em pe e deitadas, e
+   recortar para um quadrado tira justamente quem esta na ponta da mesa. As
+   alturas ficam desencontradas, e numa galeria isso e o normal. */
+.fotos { display:grid; gap:10px; margin:12px 0 4px;
+         grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
+         align-items:start; }
+.fotos figure { margin:0; }
+.fotos img { width:100%; height:auto; display:block; border-radius:8px;
+             background:#f0f0f0; }
+.fotos figcaption { font-size:.75rem; color:#777; margin-top:4px; }
+
 .resenha { background:#fffdf3; border-left:4px solid #e0c060; padding:10px 16px;
            margin:16px 0; border-radius:0 8px 8px 0; }
 .titulo-inicio small { font-weight:400; color:#888; font-size:.85rem; }

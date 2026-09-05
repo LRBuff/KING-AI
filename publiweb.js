@@ -25,7 +25,9 @@ function aplicar(){
   if (ano) ver("section.ano", "ano", ano.value);
   if (criterio) ver(".criterio", "criterio", criterio.value);
   if (modo) ver(".grade", "modo", modo.value);
-  if (mes) ver("section.mes", "mes", mes.value);
+  // `.mes`, e nao `section.mes`: o link do relatorio do mes tambem
+  // troca junto com o seletor, e ele e um <a>.
+  if (mes) ver(".mes", "mes", mes.value);
   const confronto = document.querySelector("#confronto");
   if (confronto) ver(".confronto", "confronto", confronto.value);
   acender();
