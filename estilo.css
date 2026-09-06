@@ -137,3 +137,108 @@ footer { margin-top:40px; padding:16px 20px; border-top:1px solid #eee;
   .menu { padding:0 8px; } .menu a { padding:7px 10px; font-size:.82rem; }
   .controles select { min-width:120px; }
 }
+
+/* ---- O RELATORIO DO MES ----------------------------------------------
+   Ele e a unica pagina feita para caber numa folha. O desenho vem do
+   proprio prototipo do dono: as duas classificacoes do ano lado a lado,
+   os jogos da noite numa fileira de tabelas pequenas, e as fotos como
+   miniaturas do mesmo tamanho.
+
+   Nao e so questao de imprimir: numa tela larga a pagina fica melhor
+   assim tambem. Em tela estreita cada bloco volta a ocupar a largura
+   toda, sozinho, pelo `auto-fit`. */
+.lado-a-lado { display:grid; gap:18px; align-items:start;
+               grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); }
+.lado-a-lado > section { min-width:0; }
+/* Os dois titulos ocupam a mesma altura e o texto assenta embaixo: assim
+   as duas tabelas comecam na MESMA linha, mesmo que um deles quebre em
+   dois numa tela estreita. Era o desalinhamento apontado no PDF. */
+.lado-a-lado h3 { margin:0 0 6px; font-size:.95rem; line-height:1.25;
+  min-height:2.4em; display:flex; align-items:flex-end; }
+/* As larguras fixas que o `tabela_html` escreve inline (72px na VAR RANK,
+   160px nos MESES DESCARTADOS) sao para a pagina larga. Aqui a tabela tem
+   metade da folha, e com elas a ultima coluna saia cortada na impressao —
+   apareceu no primeiro PDF. Layout fixo, larguras soltas, texto que
+   quebra. */
+/* Layout AUTOMATICO, e nao fixo: com colunas iguais toda palavra quebrava
+   no meio ("RAF AEL", "3,1 36") — ficou no segundo PDF. Aqui as larguras
+   inline sao apenas soltas, e o navegador dimensiona pelo conteudo, que e
+   curto. So o cabecalho quebra, nas linhas que ele ja tinha. */
+.lado-a-lado table { width:100%; table-layout:auto; }
+/* O `!important` na fonte nao e capricho: o `tabela_html` escreve o
+   tamanho INLINE em cada celula, e sem ele a regra daqui nunca pega —
+   as duas tabelas saiam cortadas pela direita e a VAR MEDIA sumia. */
+.lado-a-lado table th, .lado-a-lado table td {
+  width:auto !important; min-width:0 !important;
+  font-size:.72rem !important; padding:2px 5px !important;
+}
+/* A ultima coluna do descarte traz "2026-03, 2026-08": e a unica que pode
+   quebrar em duas linhas sem ficar feia, e e ela que empurrava a tabela
+   para fora da metade da folha. */
+.lado-a-lado table tr > *:last-child { white-space:normal !important; }
+
+.jogos-do-mes { display:grid; gap:14px; align-items:start;
+                grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); }
+.jogos-do-mes > section { min-width:0; break-inside:avoid; }
+/* As tabelas dos jogos encolhem: aqui elas sao referencia, nao leitura
+   linha a linha. Quem quiser ler de perto abre a pagina da noite. */
+/* A tabela da partida tem geometria em PIXELS (184 + 52 + 4x104 = 652), e
+   e assim de proposito: e o que deixa os quatro jogos da noite alinhados
+   um sob o outro. Mexer nas larguras aqui deu errado duas vezes — os
+   numeros sumiram no primeiro PDF, e a tabela estourou a coluna no
+   segundo. Entao nao se mexe: encolhe-se a tabela inteira, com `zoom`, que
+   reduz tudo junto e mantem as proporcoes. */
+.jogos-do-mes .partida { zoom:0.5; }
+@supports not (zoom:1) {          /* navegador sem `zoom`: rola de lado */
+  .jogos-do-mes > section { overflow-x:auto; }
+}
+.jogos-do-mes h3 { margin:0 0 4px; font-size:.9rem; }
+.jogos-do-mes .nota { font-size:.68rem; margin:4px 0 0; }
+
+/* As fotos do relatorio, ao contrario das da noite, sao TODAS do mesmo
+   tamanho: aqui elas sao lembranca em bloco, e alturas desencontradas
+   deixavam buracos brancos no meio da folha. O recorte e centrado. */
+.grade-do-ano table { width:100%; }
+.grade-do-ano th, .grade-do-ano td { font-size:.72rem !important;
+  padding:2px 4px !important; }
+.fotos.miniaturas { grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); }
+.fotos.miniaturas img { aspect-ratio:1/1; object-fit:cover; height:auto; }
+
+@media print {
+  /* O que so serve na tela sai do papel. */
+  nav.menu, .voltar, footer nav { display:none !important; }
+  a { color:inherit; text-decoration:none; }
+  body { font-size:11px; }
+  header { padding:0 0 6px; }
+  h1 { font-size:1.1rem; }
+  h2 { font-size:.95rem; margin:10px 0 5px; }
+  main { padding:0; }
+  @page { size:A4 portrait; margin:10mm; }
+  /* Uma tabela cortada ao meio e o defeito mais visivel de uma impressao.
+     Cada bloco cabe inteiro ou vai para a folha seguinte. */
+  table, figure, .partida, .jogos-do-mes > section { break-inside:avoid; }
+  /* Titulo, grade e a nota que explica saem juntos ou vao juntos para a
+     folha seguinte — a nota sozinha no alto da pagina nao explica nada. */
+  .grade-do-ano { break-inside:avoid; }
+  h2 { break-after:avoid; }
+  .fotos.miniaturas { grid-template-columns:repeat(6, 1fr); }
+  /* A resenha em folha propria: ela e texto corrido e longo, e espremida
+     no rodape de uma pagina de tabelas nao se le. */
+  .a-resenha { break-before:page; }
+  .a-resenha .resenha { border-left-width:3px; }
+  .jogos-do-mes { grid-template-columns:repeat(4, 1fr); gap:8px; }
+  /* Na folha A4 sao quatro colunas de ~46mm. A 0,28 a ultima coluna do
+     quarto jogo saia raspada; 0,26 deixa a folga que faltava. */
+  .jogos-do-mes .partida { zoom:0.26; }
+  .lado-a-lado { grid-template-columns:1fr 1fr; gap:12px; }
+  /* Meia folha e menos que meia tela: a fonte desce mais um pouco, e a
+     coluna dos MESES DESCARTADOS passa a quebrar em duas linhas em vez de
+     sair cortada pela direita. */
+  .lado-a-lado table th, .lado-a-lado table td { font-size:.6rem !important; }
+  /* A tabela do mes tambem encolhe na folha. Nao e economia por esporte:
+     e o que abre espaco para a grade de cada mes caber na pagina 1. */
+  .mes-do-relatorio th, .mes-do-relatorio td {
+    font-size:.66rem !important; padding:2px 5px !important; }
+  /* As partidas e as fotos comecam sempre na folha 2. */
+  .as-noites { break-before:page; }
+}
